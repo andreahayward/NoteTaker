@@ -1,7 +1,8 @@
 const db = require("../db/db.json");
 const fs = require("fs");
 //for random ID
-const uuid = require("uuid/v4");
+const { v4: uuidv4 } = require('uuid');
+uuidv4();
 
 module.exports = function(app) {  
     app.get("/api/notes", function(req, res) {
