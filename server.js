@@ -7,8 +7,9 @@ app.use(express.json());
 app.use(express.static('public'));
 
 //write this in individual folders for routes (hotrestaurant)
-//require("./routes/api-routes")(app);
-//require("./routes/html-routes")(app);
+require("./routes/api-routes")(app);
+require("./routes/html-routes")(app);
+
 
 app.listen(PORT, function() {
     console.log("App listening on PORT: " + PORT);
