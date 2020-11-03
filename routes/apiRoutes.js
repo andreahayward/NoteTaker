@@ -28,6 +28,7 @@ module.exports = function(app) {
         });
       });
     });
+  
 
     app.delete("/api/notes/:id", (req, res) => {
       let noteId = req.params.id;
