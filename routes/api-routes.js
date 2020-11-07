@@ -2,16 +2,18 @@ const db = require("../db/db.json");
 const fs = require("fs");
 //for random ID
 const { v4: uuidv4 } = require('uuid');
-uuidv4();
 
 module.exports = function(app) {  
     app.get("/api/notes", function(req, res) {
-      res.send(db);
+      fs.readFile("./db/db.json", "utf8", (err, data) => {
+        if (err) throw err;
+      res.json(JSON.parse(data));})
     });
 
+    // do i need to remove /api/?? should it be /public/notes?
     app.post("/api/notes", function(req, res) {
       //generating random ID
-      let noteID = uuid();
+      let noteID = uuidv4();
       let newNote = {
         id: noteID,
         title: req.body.title,
@@ -25,14 +27,14 @@ module.exports = function(app) {
 
         fs.writeFile("./db/db.json", JSON.stringify(allNotes, null, 2), err => {
           if (err) throw err;
-          res.send(db);
+          res.json(allNotes);
         });
       });
     });
   
 
     app.delete("/api/notes/:id", (req, res) => {
-      let noteId = req.params.id;
+      let noteID = req.params.id;
       fs.readFile("./db/db.json", "utf8", (err, data) => {
         if (err) throw err;
         const allNotes = JSON.parse(data);
@@ -40,7 +42,7 @@ module.exports = function(app) {
 
         fs.writeFile("./db/db.json", JSON.stringify(newAllNotes, null, 2), err => {
           if (err) throw err;
-          res.send(db);
+          res.json(newAllNotes);
           console.log("Note Deleted")
         });
       });
